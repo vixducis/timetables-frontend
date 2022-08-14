@@ -8,9 +8,15 @@
   "start_url": "./",
   "icons": [
     {
-      "src": "/images/icons-vector.svg",
+      "src": "assets/icons/icons-vector.svg",
       "type": "image/svg+xml",
       "sizes": "512x512",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "assets/icons/icons-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
       "purpose": "maskable any"
     },
     {

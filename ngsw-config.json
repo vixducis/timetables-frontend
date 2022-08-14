@@ -26,5 +26,32 @@
         ]
       }
     }
+  ],
+  "dataGroups": [
+    {
+      "name": "api-freshness",
+      "urls": [
+        "https://www.wouterh.be/timetable/festivals/**"
+      ],
+      "cacheConfig": {
+        "strategy": "freshness",
+        "maxSize": 100,
+        "maxAge": "5d",
+        "timeout": "5s"
+      }
+    },
+    {
+      "name": "performance",
+      "urls": [
+        "https://fonts.googleapis.com/**",
+        "https://fonts.gstatic.com/**"
+      ],
+      "cacheConfig": {
+        "strategy": "performance",
+        "maxSize": 100,
+        "maxAge": "5d",
+        "timeout": "5s"
+      }
+    }
   ]
 }

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import Dexie, { Table } from 'dexie';
 import { from, map, mergeMap, Observable } from 'rxjs';
-import { ShowDb } from 'src/classes/show';
+import { Show, ShowDb } from 'src/classes/show';
 import { exportDB } from "dexie-export-import";
 import { Event } from 'src/classes/event';
 import { StageDb } from 'src/classes/stage';
@@ -30,10 +30,13 @@ export class DbService extends Dexie{
     const table = 'shows';
     return from(this.table(table).get(showId)).pipe(
       mergeMap((found: ShowDb) => {
-        const favorite = found === undefined ? true : !found.favorite;
-        return from(this.table(table).put({id: showId, favorite})).pipe(
-          map(() => favorite)
-        )
+        return found === undefined
+          ? from(this.table(table).add({id: showId, favorite: true})).pipe(
+            map(() => true)
+          )
+          : from(this.table(table).update(found.id, {favorite: !found.favorite})).pipe(
+            map(() => !found.favorite)
+          );
       })
     );
   }
@@ -63,17 +66,23 @@ export class DbService extends Dexie{
     const showIds = event.days.map(
       day => day.stages.map(stage => stage.shows.map(show => show.id))
     ).flat().flat();
-    return from(this.table('shows').where('id').anyOf(showIds)
-      .and(item => item.favorite == true).primaryKeys()
+    return from(
+      this.table('shows').where('id').anyOf(showIds).toArray()
     ).pipe(
-      map(favoriteIds => {
-        event.days.map(day => {day.stages.map(stage => {
-          stage.shows.map(show => {
-            if(favoriteIds.includes(show.id)) {
-              show.favorite = true;
+      map((dbShows: ShowDb[]) => {
+        for(let i = 0; i < event.days.length; i++) {
+          for(let j = 0; j < event.days[i].stages.length; j++) {
+            for(let k = 0; k < event.days[i].stages[j].shows.length; k++) {
+              for(let l = 0; l < dbShows.length; l++) {
+                if(dbShows[l].id === event.days[i].stages[j].shows[k].id) {
+                  event.days[i].stages[j].shows[k].favorite = dbShows[l].favorite;
+                  event.days[i].stages[j].shows[k].rating = dbShows[l].rating ?? null;
+                  event.days[i].stages[j].shows[k].comments = dbShows[l].comment ?? '';
+                }
+              }
             }
-          })
-        })})
+          }
+        }
         return event;
       })
     )
@@ -114,5 +123,39 @@ export class DbService extends Dexie{
       }
     }
     return day;
+  }
+
+  public updateRating(show: Show, rating: number): Observable<Show> {
+    const table = 'shows';
+    return from(this.table(table).get(show.id)).pipe(
+      mergeMap((found: ShowDb) => {
+        return from(found === undefined
+          ? this.table(table).add({id: show.id, rating, favorite: false})
+          : this.table(table).update(found.id, {rating})
+        ).pipe(
+          map(() => {
+            show.rating = rating;
+            return show;
+          })
+        )
+      })
+    );
+  }
+
+  public updateComments(show: Show, comment: string): Observable<Show> {
+    const table = 'shows';
+    return from(this.table(table).get(show.id)).pipe(
+      mergeMap((found: ShowDb) => {
+        return from(found === undefined
+          ? this.table(table).add({id: show.id, comment, favorite: false})
+          : this.table(table).update(found.id, {comment})
+        ).pipe(
+          map(() => {
+            show.comments = comment;
+            return show;
+          })
+        )
+      })
+    );
   }
 }

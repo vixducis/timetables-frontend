@@ -1,0 +1,24 @@
+<div class="flex">
+    <h2>{{show.artist}}</h2>
+    <star-rating size="large" staticColor="ok" starType="svg" 
+        [step]="0.5" [showHalfStars]="true" [rating]="show.rating ?? 0"
+        (ratingChange)="changeStarValue($event)" [hoverEnabled]="true">
+    </star-rating>
+</div>
+
+<mat-chip-list aria-label="Artist tags" selectable="false">
+    <mat-chip *ngFor="let tag of artistInfo.tags">{{tag}}</mat-chip> 
+</mat-chip-list>
+
+<mat-form-field class="comments">
+    <mat-label>Comments</mat-label>
+    <textarea matInput
+              cdkTextareaAutosize
+              #autosize="cdkTextareaAutosize"
+              cdkAutosizeMinRows="1"
+              (change)="changeComments($event)">{{show.comments}}</textarea>
+</mat-form-field>
+<ng-container *ngIf="artistInfo.bio.length > 0">
+    <h3>Info</h3>
+    <p>{{artistInfo.bio}}</p>
+</ng-container>

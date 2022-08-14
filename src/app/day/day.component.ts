@@ -1,9 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { forkJoin, map, mergeMap } from 'rxjs';
 import { EventDay } from 'src/classes/eventday';
 import { Show } from 'src/classes/show';
 import { Stage } from 'src/classes/stage';
+import { ArtistDetailComponent } from '../artist-detail/artist-detail.component';
 import { DbService } from '../shared/db.service';
 
 @Component({
@@ -17,7 +19,8 @@ export class DayComponent implements OnInit {
   stageSelect = new FormControl<number[]|null>(null);
 
   constructor(
-    private db: DbService
+    private db: DbService,
+    public dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -42,6 +45,17 @@ export class DayComponent implements OnInit {
 
   public getSelectedStageIds(): number[] {
     return this.day.stages.filter(stage => stage.shown).map(stage => stage.id);
+  }
+
+  public openArtistDetail(show: Show) {
+    let dialogRef = this.dialog.open(ArtistDetailComponent, {
+      data: show,
+      maxHeight: '90vh'
+    });
+  }
+
+  fullStarsArray(rating: number|null): [] {
+    return [].constructor(Math.floor(rating??0));
   }
 
 }

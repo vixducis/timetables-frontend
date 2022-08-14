@@ -9,6 +9,8 @@ export interface ShowJson {
 
 export class Show {
     public favorite: boolean = false;
+    public rating: null|number = null;
+    public comments: string = '';
     
     constructor(
         public id: number,
@@ -34,4 +36,6 @@ export class Show {
 export interface ShowDb {
     id: number;
     favorite: boolean;
+    rating?: number;
+    comment?: string;
 }

@@ -97,6 +97,7 @@
                 &>.name {
                     font-weight: bold;
                     margin: 0;
+                    cursor: pointer;
                 }
 
                 &>.icon {
@@ -104,6 +105,19 @@
                     right: 2px;
                     position: absolute;
                     cursor: pointer;
+                }
+
+                &>.time {
+                    margin: 0;
+                }
+
+                &>.score {
+                    opacity: 0.3;
+                    &>.mat-icon {
+                        font-size: 16px;
+                        height: 16px;
+                        width: 16px;
+                    }
                 }
             }
         }

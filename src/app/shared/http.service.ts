@@ -5,6 +5,7 @@ import { from, map, mergeMap, Observable } from 'rxjs';
 import { Event, EventJson } from 'src/classes/event';
 import { YearsJson } from 'src/classes/years';
 import { DbService } from './db.service';
+import { ILastFmArtist, LastFmArtist, LastFmResponse } from 'src/classes/lastfm';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +13,8 @@ import { DbService } from './db.service';
 
 export class HttpService {
   private readonly baseUrl = 'https://www.wouterh.be/timetable/festivals/';
+  private readonly lastfmBaseUrl = 'https://ws.audioscrobbler.com/2.0/';
+  private readonly lastfmKey = 'xxx';
 
   constructor(
     private http: HttpClient,
@@ -35,5 +38,18 @@ export class HttpService {
         );
       })
     );
+  }
+
+  getArtistInfo(artist: string): Observable<LastFmArtist> {
+    return this.http.get<LastFmResponse>(
+      this.lastfmBaseUrl+"?method=artist.getinfo&artist="+artist
+      +"&api_key="+this.lastfmKey+"&format=json"
+    ).pipe(map(response => {
+      if("error" in response) {
+        return new LastFmArtist();
+      } else {
+        return LastFmArtist.fromJson(<ILastFmArtist>response);
+      }
+    }));
   }
 }

@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { forkJoin, map, mergeMap } from 'rxjs';
 import { EventDay } from 'src/classes/eventday';
 import { Show } from 'src/classes/show';
 import { Stage } from 'src/classes/stage';
@@ -13,26 +14,34 @@ import { DbService } from '../shared/db.service';
 export class DayComponent implements OnInit {
 
   @Input() day!: EventDay;
-  stageSelect = new FormControl<string[]|null>(null);
+  stageSelect = new FormControl<number[]|null>(null);
 
   constructor(
     private db: DbService
   ) {}
 
   ngOnInit(): void {
-    this.stageSelect.setValue(this.day.stages.map(stage => stage.name));
-  }
-
-  public getStageNames(): string[] {
-    return this.day.stages.map(stage => stage.name);
-  }
-
-  public getStages(): Stage[] {
-    return this.day.stages.filter(stage => this.stageSelect.value?.includes(stage.name));
+    this.stageSelect.setValue(this.getSelectedStageIds());
+    this.stageSelect.valueChanges.subscribe(newIds => {
+      if (newIds !== null) {
+        const previousIds = this.getSelectedStageIds();
+        const changedIds = previousIds.filter(x => !newIds.includes(x))
+          .concat(newIds.filter(x => !previousIds.includes(x)));
+        forkJoin(
+          changedIds.map(stageId => this.db.changeStage(stageId, this.day.getIdentifier()))
+        ).pipe(
+          mergeMap(() => this.db.parseStagesDay(this.day))
+        ).subscribe(day => {this.day = day});
+      }
+    });
   }
 
   public addFavorite(show: Show): void {
     this.db.changeFavorite(show.id).subscribe(favorite => {show.favorite = favorite});
+  }
+
+  public getSelectedStageIds(): number[] {
+    return this.day.stages.filter(stage => stage.shown).map(stage => stage.id);
   }
 
 }

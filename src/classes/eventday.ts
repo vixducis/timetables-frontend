@@ -51,4 +51,8 @@ export class EventDay {
     public getNumberOfHours(): number {
         return this.getHours().length;
     }
+
+    public getIdentifier(): string {
+        return this.date.toFormat("y-LL-dd");
+    }
 }

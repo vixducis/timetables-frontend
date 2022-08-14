@@ -30,7 +30,9 @@ export class HttpService {
   getEvent(code: string, year: number): Observable<Event> {
     return this.http.get<EventJson>(this.baseUrl+code+"/"+year).pipe(
       mergeMap(eventJson => {
-        return this.db.parseFavorites(Event.fromJson(eventJson));
+        return this.db.parseFavorites(Event.fromJson(eventJson)).pipe(
+          mergeMap(event => this.db.parseStages(event))
+        );
       })
     );
   }

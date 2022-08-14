@@ -2,18 +2,23 @@ import { EventDay } from "./eventday";
 import { Show, ShowJson } from "./show";
 
 export interface StageJson {
+    id: number;
     stage: string;
     shows: ShowJson[]
 }
 
 export class Stage {
+    public shown: boolean = true;
+
     constructor(
+        public id: number,
         public name: string,
         public shows: Show[]
     ) {}
 
     public static fromJson(json: StageJson): Stage {
         return new Stage(
+            json.id,
             json.stage,
             json.shows.map(show => Show.fromJson(show)).sort((a, b) => {
                 if (a.start > b.start) {
@@ -48,4 +53,11 @@ export class Stage {
             ? this.shows[idx+1].start.diff(this.shows[idx].end, "minutes").as("minutes")
             : 0;
     }
+}
+
+export interface StageDb {
+    id?: number;
+    stage_id: number;
+    date: string;
+    shown: boolean;
 }

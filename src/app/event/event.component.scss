@@ -1,0 +1,10 @@
+
+@media print {
+	app-toolbar {
+        display: none;
+    }
+    
+    app-day {
+        page-break-after: always;
+    }
+}

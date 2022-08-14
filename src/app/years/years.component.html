@@ -1,0 +1,6 @@
+<app-toolbar [breadcrumbs]="getBreadcrumbs()"></app-toolbar>
+<mat-nav-list>
+    <a mat-list-item *ngFor="let year of event.years" routerLink="/{{event.code}}/{{year}}">
+        {{year}}
+    </a>
+</mat-nav-list>

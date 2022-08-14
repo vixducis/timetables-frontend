@@ -1,0 +1,23 @@
+<mat-toolbar color="primary">
+    <div class="flex">
+        <div>
+            <span class="desktop" *ngFor="let breadcrumb of getBreadcrumbs(); let last = last">
+                <a *ngIf="!last" [routerLink]="breadcrumb.path" class="white">{{breadcrumb.title}}</a>
+                <span *ngIf="last">{{breadcrumb.title}}</span>
+                <span *ngIf="!last"> &gt; </span>
+            </span>
+            <button mat-icon-button class="mobile" routerLink="/">
+                <mat-icon>home</mat-icon>
+            </button>
+        </div>
+        <div>
+            <button mat-icon-button (click)="saveFile()">
+                <mat-icon>save</mat-icon>
+            </button>
+            <button mat-icon-button (click)="hiddenfileinput.click()">
+                <mat-icon>file_open</mat-icon>
+            </button>
+            <input type="file" (change)="importFile($event)" #hiddenfileinput>
+        </div>
+    </div>
+</mat-toolbar>

@@ -1,0 +1,6 @@
+<app-toolbar></app-toolbar>
+<mat-nav-list>
+    <a mat-list-item *ngFor="let festival of festivals" [routerLink]="festival.code">
+        {{festival.name}}
+    </a>
+</mat-nav-list>

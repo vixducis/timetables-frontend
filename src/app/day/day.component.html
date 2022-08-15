@@ -34,8 +34,7 @@
                         <p class="name" (click)="openArtistDetail(show)">{{show.artist}}</p>
                         <p class="time">{{show.start.toFormat("HH:mm")}} - {{show.end.toFormat("HH:mm")}}</p>
                         <p class="score">
-                            <mat-icon *ngFor="let item of fullStarsArray(show.rating)">star</mat-icon>
-                            <mat-icon *ngIf="((show.rating??0) % 1) !== 0">star_half</mat-icon>
+                            <app-rating-view [rating]="show.rating??0" [size]="16"></app-rating-view>
                         </p>
                         <mat-icon class="icon" (click)="addFavorite(show)">favorite_border</mat-icon>
                     </div>

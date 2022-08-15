@@ -12,6 +12,7 @@ import { DbService } from '../shared/db.service';
 export class EventComponent implements OnInit {
 
   public event: Event;
+  public showFavorites: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -35,6 +36,10 @@ export class EventComponent implements OnInit {
 
   public refresh(): void {
     this.db.parseFavorites(this.event).subscribe(event => {this.event = event});
+  }
+
+  public toggleFavorites(): void {
+    this.showFavorites = !this.showFavorites;
   }
 
 }

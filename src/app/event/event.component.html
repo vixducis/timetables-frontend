@@ -1,2 +1,15 @@
-<app-toolbar [breadcrumbs]="getBreadcrumbs()" (refresh)="refresh()"></app-toolbar>
-<app-day [day]="day" *ngFor="let day of event.days"></app-day>
+<app-toolbar [breadcrumbs]="getBreadcrumbs()" (refresh)="refresh()">
+    <button title="favorites only" class="toolbar-button" mat-icon-button 
+        [class.selected]="showFavorites" (click)="toggleFavorites()">
+        <mat-icon>favorite</mat-icon>
+    </button>
+</app-toolbar>
+<ng-container *ngIf="!showFavorites; else favorites">
+    <app-day [day]="day" *ngFor="let day of event.days"></app-day>
+</ng-container>
+<ng-template #favorites>
+    <div class="favorites">
+        <app-favorites-day [day]="day" *ngFor="let day of event.days">
+        </app-favorites-day>
+    </div>
+</ng-template>

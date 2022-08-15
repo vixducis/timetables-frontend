@@ -1,0 +1,52 @@
+.date {
+    margin: 16px 0 0 16px;
+    color: #3F51B5;
+}
+
+.none {
+    margin: 8px 0 0 16px;
+}
+
+
+
+.flex {
+    display: flex;
+}
+
+.stage {
+    white-space: nowrap;
+}
+
+.show {
+    padding: 8px 16px;
+
+    p {
+        margin: 0;
+    }
+
+    .flex-h {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .artist {
+            font-size: 16px;
+        }
+
+        .flex-v:last-child {
+            text-align: right;
+            white-space: nowrap;
+        }
+    }
+}
+
+@media print {
+    .date {
+        color: black;
+        margin-top: 0;
+    }
+
+    .shows, .none {
+        margin-bottom: 40px;
+    }
+}

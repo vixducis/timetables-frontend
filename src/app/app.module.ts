@@ -6,7 +6,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToolbarComponent } from './toolbar/toolbar.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatListModule } from '@angular/material/list';
@@ -18,6 +18,8 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatChipsModule } from '@angular/material/chips';
 import { TextFieldModule } from '@angular/cdk/text-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatRippleModule } from '@angular/material/core';
 
 import { FestivalsComponent } from './festivals/festivals.component';
 import { YearsComponent } from './years/years.component';
@@ -28,6 +30,8 @@ import { environment } from '../environments/environment';
 import { ArtistDetailComponent } from './artist-detail/artist-detail.component';
 
 import { StarRatingModule } from 'angular-star-rating';
+import { FavoritesDayComponent } from './favorites-day/favorites-day.component';
+import { RatingViewComponent } from './rating-view/rating-view.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +41,9 @@ import { StarRatingModule } from 'angular-star-rating';
     YearsComponent,
     EventComponent,
     DayComponent,
-    ArtistDetailComponent
+    ArtistDetailComponent,
+    FavoritesDayComponent,
+    RatingViewComponent
   ],
   imports: [
     BrowserModule,
@@ -61,7 +67,9 @@ import { StarRatingModule } from 'angular-star-rating';
     MatDialogModule,
     StarRatingModule.forRoot(),
     TextFieldModule,
-    MatInputModule
+    MatInputModule,
+    MatDividerModule,
+    MatRippleModule
   ],
   providers: [],
   bootstrap: [AppComponent]

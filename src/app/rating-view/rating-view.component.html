@@ -1,0 +1,4 @@
+<mat-icon *ngFor="let item of fullStarsArray()" [style.font-size.px]="size"
+    [style.width.px]="size" [style.height.px]="size">star</mat-icon>
+<mat-icon *ngIf="((rating??0) % 1) !== 0" [style.font-size.px]="size"
+    [style.width.px]="size" [style.height.px]="16">star_half</mat-icon>

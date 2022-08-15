@@ -1,6 +1,39 @@
+.favorites {
+    display: grid; /* 1 */
+    grid-template-columns: repeat(auto-fill, minmax(350px, 500px)); /* 2 */
+    grid-gap: 1rem; /* 3 */
+    justify-content: space-evenly; /* 4 */
+
+    app-favorites-day {
+        width: 100%;
+        max-width: 500px;
+    }
+}
+
+@media only screen and (max-width: 576px) {
+    .favorites {
+        display: block;
+    }
+}
+
 @media print {
+    .favorites {
+        display: block;
+        column-count: 2;
+        column-fill: auto;
+        position: relative;
+        height: 100%;
+    }
+
 	app-toolbar {
         display: none;
+    }
+
+    app-favorites-day {
+        break-inside: avoid-column;
+        -webkit-column-break-inside: avoid;
+        position: relative;
+        display: block;
     }
     
     app-day {

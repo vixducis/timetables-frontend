@@ -20,15 +20,9 @@ export class Stage {
         return new Stage(
             json.id,
             json.stage,
-            json.shows.map(show => Show.fromJson(show)).sort((a, b) => {
-                if (a.start > b.start) {
-                    return 1;
-                }
-                if (a.start < b.start) {
-                    return -1;
-                }
-                return 0;
-            })
+            json.shows.map(show => Show.fromJson(show)).sort(
+                (a, b) => Show.sortFn(a,b)
+            )
         );
     }
 

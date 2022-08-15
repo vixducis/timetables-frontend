@@ -1,0 +1,21 @@
+<h2 color="primary" class="date">{{day.date.toFormat("ccc dd/LL")}}</h2>
+<div *ngIf="getFavorites().length > 0; else nofavorites" class="shows">
+    <ng-container *ngFor="let item of getFavorites(); let last = last">
+        <div class="show" matRipple (click)="openArtistDetail(item.show)">
+            <div class="flex-h">
+                <div class="flex-v">
+                    <p class="mat-body-strong artist">{{item.show.artist}}</p>
+                    <app-rating-view [rating]="item.show.rating??0"></app-rating-view>
+                </div>
+                <div class="flex-v">
+                    <p>{{item.show.start.toFormat("HH:mm")}} - {{item.show.end.toFormat("HH:mm")}}</p>
+                    <p>{{item.stage.name}}</p>
+                </div>
+            </div>
+        </div>
+        <mat-divider *ngIf="!last"></mat-divider>
+    </ng-container>
+</div>
+<ng-template #nofavorites>
+    <p class="none">You don't have any favorites yet.</p>
+</ng-template>

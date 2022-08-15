@@ -31,6 +31,16 @@ export class Show {
     public getDuration(): number {
         return this.end.diff(this.start, "minutes").as("minutes");
     }
+
+    public static sortFn(a: Show, b: Show): number {
+        if (a.start > b.start) {
+            return 1;
+        }
+        if (a.start < b.start) {
+            return -1;
+        }
+        return 0;
+    }
 }
 
 export interface ShowDb {
